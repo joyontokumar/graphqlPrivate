@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import gql from "graphql-tag";
+import Service from '../src/components/Service'
 
 const READ_TODOS = gql`
   query todos{
@@ -48,24 +49,25 @@ function App() {
       <h3>CRUD Application : </h3>
       <form onSubmit={e => {
         e.preventDefault();
-        createTodo({ variables: { text: name.value, description: description.value } });
-        name.value = '';
-        description.value =''
-        window.location.reload();
+          createTodo({ variables: { text: name.value, description: description.value } });
+          name.value = '';
+          description.value =''
+          window.location.reload();
+      
       }}>
-        <input className="form-control" type="text" placeholder="Enter Name" ref={node => { name = node; }}></input>
+        <input className="form-control mb-2" type="text" placeholder="Enter Name" ref={node => { name = node; }}></input>
         <input type="text" className="form-control" placeholder="Enter Description" ref={node=>{description =node}}/>
         <button className="btn btn-primary px-5 my-2" type="submit">Submit</button>
       </form>
       <ul>
         {data.todos.map((todo) =>
           <li key={todo.id} className="w-100">
-            <span className={todo.completed ? "done" : "pending"} style={{"paddingRight":"20px"}}>{todo.text}</span>
+            <span style={{"paddingRight":"20px"}}>{todo.text}</span>
             <span className="pt-2">{todo.description}</span>
-            <button className="btn btn-sm btn-danger rounded-circle float-right" onClick={() => {
+            <button className="btn btn-sm btn-danger ml-2 float-right" onClick={() => {
               deleteTodo({ variables: { id: todo.id } });
               window.location.reload();
-            }}>X</button>
+            }}>Delete</button>
             <button className={`btn btn-sm float-right ${todo.completed ? "btn-success" : "btn-info"}`} onClick={() => {
               updateTodo({ variables: { id: todo.id } });
               window.location.reload();
@@ -73,6 +75,7 @@ function App() {
           </li>
         )}
       </ul>
+      <Service/>
     </div>
   );
 }
