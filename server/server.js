@@ -87,6 +87,11 @@ const resolvers = {
         content: args.content
       })
     },
+    // createService: async ({ title, content}) => {
+    //   const service = new Service({title, content});
+    //   await service.save();
+    //   return service;
+    // },
     removeService: (parent, args, context, info) => {
       for (let i in services) {
         if (services[i].id === args.id) {
