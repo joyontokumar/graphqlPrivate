@@ -1,15 +1,10 @@
 {
-  "name": "todo-react-graphql",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "nodemon server.js"
-  },
-  "author": "Kelvin Gobo",
-  "license": "MIT",
-  "dependencies": {
-    "cors": "^2.8.5",
-    "nodemon": "^2.0.2"
-  }
+    "scripts": {
+        "start": "nodemon server.js"
+    },
+    "dependencies": {
+        "apollo-server-express": "^2.19.0",
+        "cors": "^2.8.5",
+        "nodemon": "^2.0.6"
+    }
 }

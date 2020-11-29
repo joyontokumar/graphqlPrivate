@@ -6,6 +6,7 @@ let todos = [
   {
     id: Date.now().toString(),
     text: 'Hello from GraphQL',
+    description: "this is first desc",
     completed: true,
   },
 ];
@@ -14,13 +15,14 @@ const typeDefs = gql`
   type Todo {
     id: String
     text: String
+    description: String
     completed: Boolean
   }
   type Query {
     todos: [Todo]!
   }
   type Mutation {
-    createTodo(text: String!):String
+    createTodo(text: String!, description: String!):String
     removeTodo(id: String!):String
     updateTodo(id: String!):String
   }
@@ -32,10 +34,10 @@ const resolvers = {
   },
   Mutation: {
     createTodo: (parent, args, context, info) => {
-
       return todos.push({
         id: Date.now().toString(),
         text: args.text,
+        description: args.description,
         completed: false,
       });
     },

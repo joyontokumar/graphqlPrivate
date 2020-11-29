@@ -8,14 +8,15 @@ const READ_TODOS = gql`
     todos {
       id
       text
+      description
       completed
     }
   }
 `;
 
 const CREATE_TODO = gql`
-  mutation CreateTodo($text: String!) {
-    createTodo(text: $text)
+  mutation CreateTodo($text: String!, $description: String!) {
+    createTodo(text: $text, description: $description)
   }
 `;
 
@@ -32,7 +33,7 @@ const UPDATE_TODO = gql`
 `;
 
 function App() {
-  let input;
+  let name, description;
   const { data, loading, error } = useQuery(READ_TODOS);
   const [createTodo] = useMutation(CREATE_TODO);
   const [deleteTodo] = useMutation(REMOVE_TODO);
@@ -44,20 +45,23 @@ function App() {
 
   return (
     <div className="app">
-      <h3>Create New Todo</h3>
+      <h3>CRUD Application : </h3>
       <form onSubmit={e => {
         e.preventDefault();
-        createTodo({ variables: { text: input.value } });
-        input.value = '';
+        createTodo({ variables: { text: name.value, description: description.value } });
+        name.value = '';
+        description.value =''
         window.location.reload();
       }}>
-        <input className="form-control" type="text" placeholder="Enter todo" ref={node => { input = node; }}></input>
+        <input className="form-control" type="text" placeholder="Enter Name" ref={node => { name = node; }}></input>
+        <input type="text" className="form-control" placeholder="Enter Description" ref={node=>{description =node}}/>
         <button className="btn btn-primary px-5 my-2" type="submit">Submit</button>
       </form>
       <ul>
         {data.todos.map((todo) =>
           <li key={todo.id} className="w-100">
-            <span className={todo.completed ? "done" : "pending"}>{todo.text}</span>
+            <span className={todo.completed ? "done" : "pending"} style={{"paddingRight":"20px"}}>{todo.text}</span>
+            <span className="pt-2">{todo.description}</span>
             <button className="btn btn-sm btn-danger rounded-circle float-right" onClick={() => {
               deleteTodo({ variables: { id: todo.id } });
               window.location.reload();
